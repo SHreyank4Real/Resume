@@ -17,6 +17,6 @@ This is my personal resume site, generated from my PDF resume using Claude.ai an
   - `<DOCKERHUB_USERNAME>/<IMAGENAME>:DD-MM-YYYY-UUID`
 - **Kubernetes deployment**: A Kubernetes deployment watches for new image tags and automatically updates the running pods when a new tagged image is available.
 - **Public URL**: The site is exposed through Kubernetes ingress and is available at:
-  - `https://resume.shreyank.in`
+  - [https://resume.shreyank.in](https://resume.shreyank.in)
 
-Any change committed to `main` will flow through this pipeline and end up automatically deployed at `https://resume.shreyank.in` once the image build and push finish.
+Any change committed to `main` will flow through this pipeline and end up automatically deployed at [https://resume.shreyank.in](https://resume.shreyank.in) once the image build and push finish.

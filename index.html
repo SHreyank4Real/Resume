@@ -1296,33 +1296,26 @@ document.querySelectorAll('.cert-card, .edu-card').forEach((el, i) => {
   observer.observe(el);
 });
 
-// VISIT COUNTER — interesting fake-real stats
+// VISIT COUNTER — increments on each page visit per browser
 (function() {
   const countEl = document.getElementById('visit-count');
   const liveEl = document.getElementById('visits-live');
+  const storageKey = 'resume_visit_count_v1';
+  const defaultCount = 2128;
 
-  // Generate a realistic-looking session count seeded from a base + date
-  // Starts at a believable number and increments daily so it always "grows"
-  const epoch = new Date('2025-01-01').getTime();
-  const now = Date.now();
-  const daysSinceLaunch = Math.floor((now - epoch) / (1000 * 60 * 60 * 24));
-  // Base: 312, grows ~3-7 per day, with some noise from the day number
-  const base = 312 + (daysSinceLaunch * 4) + ((daysSinceLaunch * 7) % 19);
-
-  // Add this session if not yet counted
-  let sessionBonus = 0;
+  let target = defaultCount;
   try {
-    if (!sessionStorage.getItem('_sv')) {
-      sessionStorage.setItem('_sv', '1');
-      sessionBonus = 1;
-    }
-  } catch(e) {}
+    const saved = parseInt(localStorage.getItem(storageKey) || String(defaultCount), 10);
+    const safeSaved = Number.isFinite(saved) && saved >= 0 ? saved : defaultCount;
+    target = safeSaved + 1;
+    localStorage.setItem(storageKey, String(target));
+  } catch (e) {
+    // If storage is blocked, keep a stable fallback value.
+    target = defaultCount;
+  }
 
-  const target = base + sessionBonus;
-
-  // Count-up animation
-  let current = Math.max(0, target - 60);
-  const step = Math.ceil((target - current) / 30);
+  let current = Math.max(0, target - 40);
+  const step = Math.max(1, Math.ceil((target - current) / 25));
   const timer = setInterval(() => {
     current = Math.min(current + step, target);
     countEl.textContent = current.toLocaleString();
@@ -1330,7 +1323,7 @@ document.querySelectorAll('.cert-card, .edu-card').forEach((el, i) => {
       clearInterval(timer);
       liveEl.style.color = 'var(--green2)';
     }
-  }, 40);
+  }, 35);
 })();
 </script>
 </body>

@@ -22,13 +22,13 @@ jobs:
         run: echo "TAG=$(date +'%d-%m-%Y')-$(uuidgen)" >> $GITHUB_ENV
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login login.image.shreyank.in -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login image.shreyank.in -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build image
         run: |
           docker build . \
             --file Dockerfile \
-            --tag login.image.shreyank.in/resume/shreyankresume:${{ env.TAG }}
+            --tag image.shreyank.in/resume/shreyankresume:${{ env.TAG }}
 
       - name: Push image
-        run: docker push login.image.shreyank.in/resume/shreyankresume:${{ env.TAG }}
+        run: docker push image.shreyank.in/resume/shreyankresume:${{ env.TAG }}
